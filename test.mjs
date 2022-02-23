@@ -17,6 +17,24 @@ async function process({ partition, message: { value, offset } }) {
     console.log(`✅  Partition -> ${partition}  Offset -> ${offset} Message: ${value.toString()}`);
 }
 
+function checkTheResults() {
+    console.log(`Processed jobs: ${processedMessages}`);
+
+    const duplicates = lodash.filter(processedMessages, (val, i, iteratee) => lodash.includes(iteratee, val, i + 1));
+
+    if (duplicates.length > 0) {
+        console.error(`Result:\x1b[31m Duplicates found: ${duplicates} \x1b[0m`);
+    } else {
+        console.log(`Result:\x1b[32m No duplicates found \x1b[0m`);
+
+        if (processedMessages.length !== 20) {
+            console.error(`\x1b[31m Incorrect number of messages \x1b[0m`);
+        } else {
+            console.log(`\x1b[32m All messages processed correctly \x1b[0m`);
+        }
+    }
+}
+
 async function runConsumers() {
     const consumer1 = kafka.consumer({ groupId: 'test-group' });
     const consumer2 = kafka.consumer({ groupId: 'test-group' });
@@ -53,17 +71,7 @@ async function runConsumers() {
         },
     });
 
-    registerGracefulShutdown([consumer1, consumer2], () => {
-        console.log(`Processed jobs: ${processedMessages}`);
-
-        const duplicates = lodash.filter(processedMessages, (val, i, iteratee) => lodash.includes(iteratee, val, i + 1));
-
-        if (duplicates.length > 0) {
-            console.error(`Result:\x1b[31m Duplicates found: ${duplicates} \x1b[0m`);
-        } else {
-            console.log(`Result:\x1b[32m No duplicates found \x1b[0m`);
-        }
-    });
+    registerGracefulShutdown([consumer1, consumer2], checkTheResults);
 }
 
 await new ResetKafka(kafka).reset();
