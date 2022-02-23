@@ -10,7 +10,7 @@ const consoleLogger = {
 
 export const kafka = new Kafka({
     brokers: ['100.100.53.77:9092'],
-    clientId: 'test-client',
+    clientId: 'test-client1',
     // logLevel: logLevel.DEBUG,
     logCreator: () => ({ level, log, label, namespace }) => {
         const { message, timestamp, logger, error, stack, ...others } = log;

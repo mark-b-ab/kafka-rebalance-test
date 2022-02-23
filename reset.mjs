@@ -6,7 +6,7 @@ const { range } = lodash;
 export class ResetKafka {
     messages = 20;
     partitions = 2;
-    topic = 'bench-topic';
+    topic = 'test-topic';
 
     constructor(kafka) {
         this.kafka = kafka;
@@ -36,13 +36,17 @@ export class ResetKafka {
     }
 
     async recreateTopic() {
-        await this.admin.deleteTopics({
-            topics: [this.topic],
-        });
+        const topics = await this.admin.listTopics();
 
-        console.log('Reset: Topic deleted');
+        if (topics.includes(this.topic)) {
+            await this.admin.deleteTopics({
+                topics: [this.topic],
+            });
 
-        await setTimeout(1000);
+            console.log('Reset: Topic deleted');
+
+            await setTimeout(1000);
+        }
 
         await this.admin.createTopics({
             topics: [{ topic: this.topic, numPartitions: this.partitions }],

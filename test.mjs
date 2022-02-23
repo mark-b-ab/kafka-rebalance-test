@@ -36,8 +36,8 @@ function checkTheResults() {
 }
 
 async function runConsumers() {
-    const consumer1 = kafka.consumer({ groupId: 'test-group' });
-    const consumer2 = kafka.consumer({ groupId: 'test-group' });
+    const consumer1 = kafka.consumer({ groupId: 'test-group1' });
+    const consumer2 = kafka.consumer({ groupId: 'test-group1' });
 
     console.log('Test: connecting');
 
@@ -46,8 +46,8 @@ async function runConsumers() {
 
     console.log('Test: connected, subscribing');
 
-    await consumer1.subscribe({ topic: 'bench-topic', fromBeginning: true });
-    await consumer2.subscribe({ topic: 'bench-topic', fromBeginning: true });
+    await consumer1.subscribe({ topic: 'test-topic', fromBeginning: true });
+    await consumer2.subscribe({ topic: 'test-topic', fromBeginning: true });
 
     const emitter = new EventEmitter();
 
