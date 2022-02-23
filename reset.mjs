@@ -1,9 +1,9 @@
 import { setTimeout } from 'timers/promises';
-import { kafka }      from './kafka.mjs';
-import lodash from 'lodash';
+import lodash         from 'lodash';
+
 const { range } = lodash;
 
-class ResetKafka {
+export class ResetKafka {
     messages = 20;
     partitions = 2;
     topic = 'bench-topic';
@@ -77,5 +77,3 @@ class ResetKafka {
         };
     }
 }
-
-await new ResetKafka(kafka).reset();

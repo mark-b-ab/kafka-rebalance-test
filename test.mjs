@@ -3,6 +3,7 @@ import { setTimeout }               from 'timers/promises';
 import { EventEmitter }             from 'events';
 import { kafka }                    from './kafka.mjs';
 import lodash                       from 'lodash';
+import { ResetKafka }               from './reset.mjs';
 
 const processedMessages = [];
 
@@ -37,7 +38,7 @@ async function runConsumers() {
             autoCommitInterval: -1,
             eachMessage: async (message) => {
                 await process(message);
-                setImmediate(() => emitter.emit('stop'))
+                setImmediate(() => emitter.emit('stop'));
             },
         });
     });
@@ -65,4 +66,5 @@ async function runConsumers() {
     });
 }
 
+await new ResetKafka(kafka).reset();
 await runConsumers();

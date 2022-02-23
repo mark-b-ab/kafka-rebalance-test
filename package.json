@@ -1,14 +1,13 @@
 {
-  "name": "kafka-rebalance-test",
-  "version": "1.0.0",
-  "license": "MIT",
-  "module": "test.mjs",
-  "scripts": {
-    "run": "node test.mjs",
-    "clean": "node reset.mjs"
-  },
-  "dependencies": {
-    "kafkajs": "^1.16.0",
-    "lodash": "^4.17.21"
-  }
+    "name": "kafka-rebalance-test",
+    "version": "1.0.0",
+    "license": "MIT",
+    "module": "test.mjs",
+    "scripts": {
+        "run": "node test.mjs"
+    },
+    "dependencies": {
+        "kafkajs": "^1.16.0",
+        "lodash": "^4.17.21"
+    }
 }
